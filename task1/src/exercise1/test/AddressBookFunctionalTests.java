@@ -124,6 +124,42 @@ public class AddressBookFunctionalTests {
 		assertThat(retrievedEntry).isEqualToComparingFieldByFieldRecursively(entry);
 	}
 
+	@Test
+	public void test_getEntry_NonExistant_Null() throws SizeLimitReachedException {
+		String firstname = "firstnametest";
+		String lastname = "lastnametest";
+		Entry entry = new Entry(firstname, lastname, Gender.Female, new PhoneNumber(3434));
+		this.addressBook.addEntry(entry);
+
+		Entry retrievedEntry = this.addressBook.getEntry(null, null);
+
+		assertThat(retrievedEntry).isEqualTo(null);
+	}
+
+	@Test
+	public void test_getEntry_NonExistant_EmptyString() throws SizeLimitReachedException {
+		String firstname = "firstnametest";
+		String lastname = "lastnametest";
+		Entry entry = new Entry(firstname, lastname, Gender.Female, new PhoneNumber(3434));
+		this.addressBook.addEntry(entry);
+
+		Entry retrievedEntry = this.addressBook.getEntry("", "");
+
+		assertThat(retrievedEntry).isEqualTo(null);
+	}
+
+	@Test
+	public void test_getEntry_NonExistant_Normal() throws SizeLimitReachedException {
+		String firstname = "firstnametest";
+		String lastname = "lastnametest";
+		Entry entry = new Entry(firstname, lastname, Gender.Female, new PhoneNumber(3434));
+		this.addressBook.addEntry(entry);
+
+		Entry retrievedEntry = this.addressBook.getEntry("notfirstnametest", "notlastnametest");
+
+		assertThat(retrievedEntry).isEqualTo(null);
+	}
+
 	/*
 	 * Aufgabe 3a) Schreiben Sie eine Methode zum Aufsetzen der Testumgebung
 	 * ("Fixture"). Diese Methode soll automatisch vor jedem einzelnen JUnit
