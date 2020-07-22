@@ -39,18 +39,39 @@ public class AddressBookFunctionalTests {
 	// The component under test
 	private AddressBook addressBook;
 
+	/*
+	 * Aufgabe 3a) Schreiben Sie eine Methode zum Aufsetzen der Testumgebung
+	 * ("Fixture"). Diese Methode soll automatisch vor jedem einzelnen JUnit
+	 * Testfall ausgeführt werden. Innerhalb der Methode soll mindestens ein neues
+	 * AddressBook Objekt angelegt und im Attribut "addressBook" gepeichert werden.
+	 */
+
 	@Before
-	public void beforeEach() {
+	public void beforeEach() throws SizeLimitReachedException {
 		this.addressBook = new AddressBook();
+		/**
+		 * As populating the AdressBook beforehand does not adhere to the AAA Principle
+		 * we do not add Address Books Entries here. As it was part of the task objects
+		 * could have been added by outcommenting the following lines of code
+		 */
+		// Entry entry = new Entry("anyentry", "anyentry", Gender.Female, new
+		// PhoneNumber(3434));
+		// this.addressBook.addEntry(entry);
 	}
+
+	/*
+	 * Aufgabe 3b) Schreiben Sie einen JUnit Testfall zum überprüfen der
+	 * Funktionalität der addEntry() Methode.
+	 */
 
 	@Test
 	public void test_addEntry() throws SizeLimitReachedException {
 		Entry entry = new Entry("test", "test", Gender.Female, new PhoneNumber(3434));
-		Entry entry2 = new Entry("test", "test", Gender.Female, new PhoneNumber(3434));
+		Entry copyOfEntry = new Entry("test", "test", Gender.Female, new PhoneNumber(3434));
 
-		this.addressBook.addEntry(entry);
-		assertThat(addressBook.getEntries().iterator().next()).isEqualToComparingFieldByFieldRecursively(entry2);
+		assertThat(this.addressBook.addEntry(entry)).isTrue();
+		assertThat(this.addressBook.addEntry(entry)).isFalse();
+		assertThat(addressBook.getEntries()).contains(copyOfEntry);
 	}
 
 	@Test
@@ -75,6 +96,11 @@ public class AddressBookFunctionalTests {
 
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
+
+	/*
+	 * Aufgabe 3c) Schreiben Sie einen JUnit Testfall zum überprüfen der
+	 * Funktionalität der getEntry() Methode.
+	 */
 
 	@Test
 	public void test_getEntry_Normal() throws SizeLimitReachedException {
@@ -159,22 +185,5 @@ public class AddressBookFunctionalTests {
 
 		assertThat(retrievedEntry).isEqualTo(null);
 	}
-
-	/*
-	 * Aufgabe 3a) Schreiben Sie eine Methode zum Aufsetzen der Testumgebung
-	 * ("Fixture"). Diese Methode soll automatisch vor jedem einzelnen JUnit
-	 * Testfall ausgeführt werden. Innerhalb der Methode soll mindestens ein neues
-	 * AddressBook Objekt angelegt und im Attribut "addressBook" gepeichert werden.
-	 */
-
-	/*
-	 * Aufgabe 3b) Schreiben Sie einen JUnit Testfall zum überprüfen der
-	 * Funktionalität der addEntry() Methode.
-	 */
-
-	/*
-	 * Aufgabe 3c) Schreiben Sie einen JUnit Testfall zum überprüfen der
-	 * Funktionalität der getEntry() Methode.
-	 */
 
 }
